@@ -1,0 +1,190 @@
+openapi: 3.0.3
+info:
+  title: 博物馆云平台 API
+  description: |
+    这是一个示例API文档，用于演示API文档的基本结构和格式。
+    
+    ## 概述
+    本示例API提供了基本的用户管理功能，包括用户注册、登录、信息查询等操作。
+  version: 1.0.0
+  contact:
+    name: cloudMuseum Team
+    url: https://github.com/cloudMuseum
+servers:
+  - url: https://api.example.com/v1
+    description: 示例服务器
+
+security:
+  - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: 错误代码
+        message:
+          type: string
+          description: 错误信息
+      required:
+        - code
+        - message
+    
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 用户ID
+        username:
+          type: string
+          description: 用户名
+        email:
+          type: string
+          format: email
+          description: 电子邮箱
+        createdAt:
+          type: string
+          format: date-time
+          description: 创建时间
+      required:
+        - id
+        - username
+        - email
+
+paths:
+  /users:
+    get:
+      summary: 获取用户列表
+      description: 分页获取系统中的用户列表
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: 页码
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: 每页数量
+      responses:
+        '200':
+          description: 成功返回用户列表
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  total:
+                    type: integer
+                    description: 总数量
+                  page:
+                    type: integer
+                    description: 当前页码
+                  pageSize:
+                    type: integer
+                    description: 每页数量
+    
+    post:
+      summary: 创建新用户
+      description: 注册新用户账号
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  minLength: 3
+                  maxLength: 50
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+                  minLength: 6
+              required:
+                - username
+                - email
+                - password
+      responses:
+        '201':
+          description: 成功创建用户
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /users/{id}:
+    get:
+      summary: 获取用户详情
+      description: 根据用户ID获取用户详细信息
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 用户ID
+      responses:
+        '200':
+          description: 成功返回用户信息
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /auth/login:
+    post:
+      summary: 用户登录
+      description: 使用用户名和密码登录系统
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                  format: password
+              required:
+                - username
+                - password
+      responses:
+        '200':
+          description: 登录成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: JWT访问令牌
+                  user:
+                    $ref: '#/components/schemas/User'

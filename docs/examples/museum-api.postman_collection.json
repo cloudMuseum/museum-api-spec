@@ -1,0 +1,72 @@
+{
+  "info": {
+    "name": "Museum Cloud API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "展品管理",
+      "item": [
+        {
+          "name": "获取展品列表",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/artifacts?category=古代文物&page=1&pageSize=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["artifacts"],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "古代文物"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "创建新展品",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/artifacts",
+              "host": ["{{baseUrl}}"],
+              "path": ["artifacts"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"青铜器\",\n  \"description\": \"战国时期青铜器\",\n  \"category\": \"古代文物\",\n  \"imageUrls\": [\"https://example.com/images/1.jpg\"]\n}"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
