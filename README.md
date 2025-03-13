@@ -24,6 +24,13 @@ npm install -g @redocly/cli
 npx --yes @redocly/cli preview-docs openapi.yaml
 ```
 
+## 使用指南
+
+- [快速开始](docs/guides/quick-start.md) - 快速上手API的使用
+- [认证指南](docs/guides/authentication.md) - API认证相关说明
+- [最佳实践](docs/guides/best-practices.md) - API调用优化建议
+- [API示例](docs/examples/api-examples.md) - 常见API调用示例
+
 ## API版本控制
 
 我们使用语义化版本控制（Semantic Versioning）来管理API版本：
@@ -54,6 +61,8 @@ npx --yes @redocly/cli preview-docs openapi.yaml
    ```
 
 ## 贡献指南
+
+详细的贡献指南请参考[贡献指南](docs/guides/contribution.md)，主要包括：
 
 1. Fork本仓库
 2. 创建特性分支
